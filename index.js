@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express")
 const mongoose = require("mongoose");
 const cors = require('cors')
@@ -8,7 +9,7 @@ app.use(express.json());
 app.use(cors())
 
 mongoose.connect(
-   "mongodb://localhost:27017/Raffles",
+   process.env.MONGO_URI || "mongodb://localhost:27017/Raffles",
    console.log("connected succesfully")
  );
  
@@ -19,4 +20,5 @@ app.use((err, req, res, next) => {
    res.status(500).json({ error: err.message })
 })
 
-app.listen(3000, () => console.log('Listening on port 3000!'))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => console.log(`Listening on port ${PORT}!!`))
